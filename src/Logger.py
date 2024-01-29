@@ -1,38 +1,41 @@
 import logging
 
 class Logger:
-    def __init__(self, output_path, file_name, level=logging.INFO):
-        self.output_path = output_path
-        self.file_name = file_name
-        self.level = level
+    def __init__(self, log_file=None, log_level=logging.DEBUG):
+        self.set_level(log_level)
 
-    def get_output_path(self):
-        return self.output_path
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
-    def get_file_name(self):
-        return self.file_name
-    
-    def get_level(self):
-        return self.level
-        
-    def setup_logger(self, console=False, file=False):
-        handlers = []
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        self.add_handler(console_handler)
 
-        if console:
-            handlers.append(logging.StreamHandler())
+        if log_file:
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setFormatter(formatter)
+            self.add_handler(file_handler)
 
-        if file:
-            handlers.append(logging.FileHandler(f'{self.get_output_path()}/{self.get_file_name()}'))
+    def set_level(self, level):
+        self.logger.setLevel(level)
 
-        logging.basicConfig(
-            level=self.get_level(),
-            format='%(asctime)s %(levelname)s %(message)s',
-            handlers=handlers or [logging.NullHandler()]
-        )
+    def add_handler(self, handler):
+        self.logger.addHandler(handler)
+
+    def debug(self, message):
+        self.logger.debug(message)
+
+    def info(self, message):
+        self.logger.info(message)
+
+    def warning(self, message):
+        self.logger.warning(message)
+
+    def error(self, message):
+        self.logger.error(message)
+
+    def critical(self, message):
+        self.logger.critical(message)
 
     def clear_output(self):
         with open(f'{self.get_output_path()}/{self.get_file_name()}', 'r+') as file:
             file.truncate(0)
-
-    def info(self, message, *args, **kwargs):
-        logging.info(message, *args, **kwargs)

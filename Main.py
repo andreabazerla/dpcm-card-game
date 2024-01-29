@@ -1,5 +1,4 @@
 import logging
-import pandas as pd
 
 from src.Logger import Logger
 from src.Utils import clear_console, get_config
@@ -7,9 +6,8 @@ from src.Turnament import Turnament
 
 if __name__ == "__main__":
     clear_console()
-
-    logger = Logger('logging', 'output.log')
-    logger.setup_logger(console=True, file=True)
+    
+    logger = Logger('output.log', logging.INFO)
     logger.clear_output()
 
     debug = Logger('logging', 'debug.log')
