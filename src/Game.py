@@ -1,7 +1,5 @@
-import time
 from typing import List
 
-from src.Logger import Logger
 from src.Table import Table
 from src.Deck import Deck
 from src.Player import Player
@@ -54,7 +52,7 @@ class Game:
                 return True
         return False
     
-    def check_game_over(self, logger:Logger, players:List[Player], loop):
+    def check_game_over(self, logger, players:List[Player], loop):
         self.scan_winner(players)
        
         game_over = self.is_game_over()
@@ -71,7 +69,7 @@ class Game:
             
         return game_over, player_winner
 
-    def start(self, logger: Logger):
+    def start(self, logger):
 
         config = get_config()
         game_config = config['GAME']
@@ -125,7 +123,7 @@ class Game:
             logger.info('Table: %s', table)
             logger.info('')
 
-            print_players(players)
+            print_players(players, logger)
             logger.info('')
         
             for player in players:
@@ -143,7 +141,7 @@ class Game:
                 logger.info(f'Player {player.get_name()} stole card [{card_stolen}] and gifted [{card_gifted}] from/to player {next_player.get_name()}')
 
                 logger.info('')
-                print_players(players)
+                print_players(players, logger)
                 logger.info('')
 
                 card_played, certification_card, drew_from_deck, quarantine, infected, vaccinated, skip, move = player.play_cards(players, table, deck, quarantine)
@@ -184,7 +182,7 @@ class Game:
                 logger.info('Table: %s', table)
                 logger.info('')
 
-                print_players(players)
+                print_players(players, logger)
                 logger.info('')
                 
             if game_over:

@@ -12,9 +12,9 @@ def get_config():
 
     return config
 
-def print_players(players):
+def print_players(players, logger):
     for player in players:
-        logging.info(player)
+        logger.info(player)
 
 def clear_console():
     clear = lambda: os.system('cls')
@@ -89,3 +89,30 @@ def rotate_players(players):
 
 def is_expected_winner(player_winner, players):
     return player_winner == players[0]
+
+def get_logger(name, level=logging.INFO, console=None, file=None):
+    logger = logging.getLogger(name)
+
+    handlers = []
+    if console:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+        handlers.append(handler)
+    if file:
+        handler = logging.FileHandler(f'{file}')
+        handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+        handlers.append(handler)
+
+    for handler in handlers:    
+        logger.addHandler(handler)
+
+    logger.setLevel(level)
+
+    return logger
+
+def clear_file(file):
+    try:
+        with open(f'{file}', 'r+') as file:
+            file.truncate(0)
+    except:
+        pass

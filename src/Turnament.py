@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from src.Logger import Logger
 from src.Player import Player
 from src.Utils import get_config, get_moves, get_rewards, get_states, rotate_players
 from src.Game import Game
@@ -32,7 +31,7 @@ class Turnament:
 
         return players
     
-    def start_turnament(self, logger: Logger, q, visited):
+    def start_turnament(self, logger, q, visited):
         config = get_config()
 
         players_config = config['PLAYERS']

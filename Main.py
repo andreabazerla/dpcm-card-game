@@ -1,18 +1,17 @@
 import logging
+import pandas as pd
 
-from src.Logger import Logger
-from src.Utils import clear_console, get_config
+from src.Utils import clear_console, clear_file, get_config, get_logger
 from src.Turnament import Turnament
 
 if __name__ == "__main__":
     clear_console()
-    
-    logger = Logger('output.log', logging.INFO)
-    logger.clear_output()
 
-    debug = Logger('logging', 'debug.log')
-    debug.setup_logger(console=False, file=True)
-    debug.info('test')
+    clear_file('output/info.log')
+    clear_file('output/debug.log')
+    
+    logger = get_logger('info', logging.INFO, console=True, file='output/info.log')
+    debugger = get_logger('debug', logging.DEBUG, file='output/debug.log')
 
     config = get_config()
 
