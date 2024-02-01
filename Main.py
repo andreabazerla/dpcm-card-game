@@ -37,6 +37,8 @@ if __name__ == '__main__':
     turnament = Turnament(turnament_number)
     winner_list, q_updated, visited_updated = turnament.start_turnament(logger, q, visited)
 
+    q_updated.index.rename('ID', inplace=True)
+
     winner_list_light = []
     winner_dict = {}
     for winner in winner_list:
