@@ -52,7 +52,7 @@ class Game:
                 return True
         return False
     
-    def check_game_over(self, logger, players:List[Player], loop):
+    def check_game_over(self, logger, players:List[Player], turn):
         self.scan_winner(players)
        
         game_over = self.is_game_over()
@@ -64,7 +64,7 @@ class Game:
             logger.info('')
             logger.info(f'Game over!')
             logger.info(f'Winner: player {player_winner.get_name()}')
-            logger.info(f'Loop: {loop}')
+            logger.info(f'Turn: {turn}')
             logger.info('')
             
         return game_over, player_winner
@@ -108,6 +108,7 @@ class Game:
         logger.info('')
 
         loop = 1
+        turn = 1
         game_over = False
         quarantine = 0
         skip = False
@@ -127,6 +128,9 @@ class Game:
             logger.info('')
         
             for player in players:
+
+                logger.info('Turn: %s', turn)
+                logger.info('')
 
                 logger.info('Turn of player: %s', player.get_name())
                 logger.info('')
@@ -163,7 +167,7 @@ class Game:
                 else:
                     logger.info(f'Player {player.get_name()} drew from deck card [{card_played[0]}] and pass his turn')
 
-                game_over, player_winner = self.check_game_over(logger, players, loop)
+                game_over, player_winner = self.check_game_over(logger, players, turn)
                 if player_winner is not None:
                     if player_winner.is_ai():
                         state = player_winner.update_state(players, table, quarantine)
@@ -184,10 +188,12 @@ class Game:
 
                 print_players(players, logger)
                 logger.info('')
+
+                turn = turn + 1
                 
             if game_over:
                 break
 
             loop = loop + 1
 
-        return player_winner, loop, fake_winner, expected_winner
+        return player_winner, turn, fake_winner, expected_winner

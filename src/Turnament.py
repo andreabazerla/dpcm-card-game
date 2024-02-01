@@ -65,14 +65,12 @@ class Turnament:
 
             game = Game(players)
 
-            player_winner, loop, fake_winner, expected_winner = game.start(logger)
+            player_winner, turn, fake_winner, expected_winner = game.start(logger)
 
-            winner_list.append((player_winner, loop, fake_winner, expected_winner))
+            winner_list.append((player_winner, turn, fake_winner, expected_winner))
 
             players = rotate_players(players)
 
             turnament = turnament + 1
-
-            #time.sleep(0.005)
 
         return winner_list, q, visited
