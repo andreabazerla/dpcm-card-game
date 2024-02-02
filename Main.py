@@ -35,7 +35,14 @@ if __name__ == '__main__':
             visited = None
 
     turnament = Turnament(turnament_number)
-    winner_list, q_updated, visited_updated = turnament.start_turnament(logger, q, visited)
+    winner_list = turnament.start_turnament(logger, q, visited)
+
+    players = turnament.get_players()
+    for player in players:
+        if player.is_ai():
+            q_updated = player.get_q()
+            visited_updated = player.get_visited()
+            break
 
     q_updated.index.rename('ID', inplace=True)
 

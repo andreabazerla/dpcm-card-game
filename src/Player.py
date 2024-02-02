@@ -55,6 +55,9 @@ class Player:
     def set_visited(self, visited):
         self.visited = visited
 
+    def get_visited(self):
+        return self.visited
+
     def get_name(self):
         return self.name
     

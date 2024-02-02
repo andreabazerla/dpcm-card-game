@@ -31,11 +31,18 @@ class Turnament:
 
         return players
     
+    def set_players(self, players):
+        self.players = players
+
+    def get_players(self):
+        return self.players
+    
     def start_turnament(self, logger, q, visited):
         config = get_config()
 
         players_config = config['PLAYERS']
         players = self.create_players(players_config)
+        self.set_players(players)
 
         states = get_states(players)
         moves = get_moves()
@@ -73,4 +80,4 @@ class Turnament:
 
             turnament = turnament + 1
 
-        return winner_list, q, visited
+        return winner_list
