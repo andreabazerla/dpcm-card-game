@@ -9,7 +9,7 @@
     "PLAYERS": [
         {
             "NAME": "A",
-            "AI": false,
+            "AI": true,
             "EPSILON": 0.4,
             "STEP_SIZE": 0.2
         },
