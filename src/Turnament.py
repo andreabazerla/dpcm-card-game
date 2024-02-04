@@ -6,11 +6,15 @@ from src.Utils import get_config, get_moves, get_rewards, get_states, rotate_pla
 from src.Game import Game
 
 class Turnament:
-    def __init__(self, game_number):
+    def __init__(self, game_number, turnament_fair):
         self.game_number = game_number
+        self.turnament_fair = turnament_fair
 
     def get_game_number(self):
         return self.game_number
+
+    def is_turnament_fair(self):
+        return self.turnament_fair
     
     def create_players(self, players_config):
         players = []
@@ -37,7 +41,7 @@ class Turnament:
     def get_players(self):
         return self.players
     
-    def start_turnament(self, logger, q, visited):
+    def start(self, logger, q, visited):
         config = get_config()
 
         players_config = config['PLAYERS']
@@ -76,7 +80,8 @@ class Turnament:
 
             winner_list.append((player_winner, turn, fake_winner, expected_winner))
 
-            players = rotate_players(players)
+            if self.is_turnament_fair():
+                players = rotate_players(players)
 
             turnament = turnament + 1
 

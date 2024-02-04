@@ -16,35 +16,37 @@ if __name__ == '__main__':
 
     config = get_config()
 
-    turnament_number = config['TURNAMENT']
-    reset = config['RESET']
+    turnament_config = config['TURNAMENT']
     players_config = config['PLAYERS']
 
-    if not reset:
-        try:
-            logger.info(f'Wait. Trying to load AI... :/')
-            logger.info('')
+    turnament_number = turnament_config['NUMBER']
+    turnament_fair = turnament_config['FAIR']
 
-            q = pd.read_csv('data/q.csv', index_col=0, converters={0: lambda x: eval(x)})
-            visited = pd.read_csv('data/visited.csv', index_col=0, converters={0: lambda x: eval(x)})
-            
-            logger.info(f'AI loaded. :D Go!')
-            logger.info('')
-        except:
-            q = None
-            visited = None
+    try:
+        logger.info(f'Wait. Trying to load AI... :/')
+        logger.info('')
 
-    turnament = Turnament(turnament_number)
-    winner_list = turnament.start_turnament(logger, q, visited)
+        q = pd.read_csv('data/q.csv', index_col=0, converters={0: lambda x: eval(x)})
+        visited = pd.read_csv('data/visited.csv', index_col=0, converters={0: lambda x: eval(x)})
+        
+        logger.info(f'AI loaded. :D Go!')
+        logger.info('')
+    except:
+        q = None
+        visited = None
+
+    turnament = Turnament(turnament_number, turnament_fair)
+    winner_list = turnament.start(logger, q, visited)
 
     players = turnament.get_players()
     for player in players:
         if player.is_ai():
-            q_updated = player.get_q()
+            q = player.get_q()
             visited_updated = player.get_visited()
             break
 
-    q_updated.index.rename('ID', inplace=True)
+    if q:
+        q.index.rename('ID', inplace=True)
 
     winner_list_light = []
     winner_dict = {}
@@ -69,12 +71,15 @@ if __name__ == '__main__':
     results['Rate'] = results['Rate'].cumsum() / (results.index + 1)
 
     logger.info('')
-    if not reset:
-        logger.info(f'Wait. Saving AI brain... ;)')
-        logger.info('')
+    logger.info(f'Wait. Saving AI brain... ;)')
+    logger.info('')
 
-        results.to_csv('data/results.csv', index=False)
-        q_updated.to_csv('data/q.csv', index=True)
-        visited_updated.to_csv('data/visited.csv', index=True)
+    results.to_csv('data/results.csv', index=False)
+    
+    if q:
+        q.to_csv('data/q.csv', index=True)
+    
+    if visited:
+        visited.to_csv('data/visited.csv', index=True)
 
     logger.info('DONE')

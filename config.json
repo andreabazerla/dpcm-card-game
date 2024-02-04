@@ -1,17 +1,20 @@
 {
-    "TURNAMENT": 1000,
+    "TURNAMENT": {
+        "NUMBER": 1000,
+        "FAIR": true
+    },
     "GAME": {
         "CARDS_PER_PLAYER": 7
     },
     "PLAYERS": [
         {
-            "NAME": "AI",
-            "AI": true,
+            "NAME": "A",
+            "AI": false,
             "EPSILON": 0.4,
             "STEP_SIZE": 0.2
         },
         {
-            "NAME": "Human",
+            "NAME": "B",
             "AI": false
         }
     ],
@@ -35,6 +38,5 @@
             "+3": 1,
             "SKIP": 2
         }
-    },
-    "RESET": false
+    }
 }
