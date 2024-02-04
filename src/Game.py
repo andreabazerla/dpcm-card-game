@@ -157,13 +157,35 @@ class Game:
                             logger_string += f' and then played [{certification_card}] card'
                         elif card_played.is_wild() and card_played.is_vaccine() and vaccinated:
                             logger_string += f' and recovered from COVID-19 with vaccine'
+                            quarantine = 0
                         elif card_played.is_wild() and card_played.is_skip():
                             logger_string += f' and skip turn of player {player.get_next_player(players).get_name()}'
+
+                        logger.info(logger_string)
                     else:
-                        logger_string = f'Player {player.get_name()} was infected and drew {quarantine} cards from deck'
+                        logger.info(f'Player {player.get_name()} was infected and drew {quarantine} cards from deck')
+                        logger.info('')
+
+                        print_players(players, logger)
+                        logger.info('')
+                        
                         quarantine = 0
 
-                    logger.info(logger_string)
+                        card_played, certification_card, drew_from_deck, quarantine, infected, vaccinated, skip, move = player.play_cards(players, table, deck, quarantine)
+
+                        if not drew_from_deck:
+                            logger_string = f'Player {player.get_name()} played [{card_played}] card'
+                            
+                            if certification_card:
+                                logger_string += f' and then played [{certification_card}] card'
+                            elif card_played.is_wild() and card_played.is_vaccine() and vaccinated:
+                                logger_string += f' and recovered from COVID-19 with vaccine'
+                            elif card_played.is_wild() and card_played.is_skip():
+                                logger_string += f' and skip turn of player {player.get_next_player(players).get_name()}'
+
+                            logger.info(logger_string)
+                        else:
+                            logger.info(f'Player {player.get_name()} drew from deck card [{card_played[0]}] and pass his turn')
                 else:
                     logger.info(f'Player {player.get_name()} drew from deck card [{card_played[0]}] and pass his turn')
 
