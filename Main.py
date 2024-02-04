@@ -40,13 +40,10 @@ if __name__ == '__main__':
 
     players = turnament.get_players()
     for player in players:
+        visited = player.get_visited()
         if player.is_ai():
             q = player.get_q()
-            visited_updated = player.get_visited()
             break
-
-    if q:
-        q.index.rename('ID', inplace=True)
 
     winner_list_light = []
     winner_dict = {}
@@ -76,10 +73,12 @@ if __name__ == '__main__':
 
     results.to_csv('data/results.csv', index=False)
     
-    if q:
+    if q is not None:
+        q.index.rename('ID', inplace=True)
         q.to_csv('data/q.csv', index=True)
     
-    if visited:
+    if visited is not None:
+        visited.index.rename('ID', inplace=True)
         visited.to_csv('data/visited.csv', index=True)
 
     logger.info('DONE')
