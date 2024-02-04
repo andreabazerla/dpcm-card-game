@@ -216,15 +216,23 @@ class Player:
                     if move_plus is not None:
                         certification_card, _, _, _, _ = self.execute_move(move_plus, table, quarantine)
                         
+                        self.update_visited(move_plus)
+
                         move_final = move_plus
                 
                 if self.is_ai():
                     self.update_q(state, move)
+
+                self.update_visited(move)
             else:
                 self.draw_from_deck(deck, table, quarantine)
 
         return card, certification_card, drew_from_deck, quarantine, infected, vaccinated, skip, move_final
     
+    def update_visited(self, move):
+        iloc_previous_state = self.get_q().index.get_loc(tuple(self.get_previous_state()))
+        self.visited.iloc[iloc_previous_state][move] += 1
+
     def update_q(self, state, move):
         if self.get_previous_move() is not None:
             iloc_previous_state = self.q.index.get_loc(tuple(self.get_previous_state()))
@@ -238,8 +246,6 @@ class Player:
                 self.q.iloc[iloc_previous_state][self.get_previous_move()] = previous_q + self.get_step_size() * (reward + this_q - previous_q) 
             else:
                 self.q.iloc[iloc_previous_state][self.get_previous_move()] = previous_q + self.get_step_size() * (reward - previous_q)
-
-            self.visited.iloc[iloc_previous_state][move] += 1
                 
         self.set_previous_state(state)
         self.set_previous_move(move)
