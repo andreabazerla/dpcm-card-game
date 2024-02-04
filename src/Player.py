@@ -223,9 +223,6 @@ class Player:
                         if self.is_ai():
                             self.update_q(state, move)
 
-                        self.set_previous_state(state)
-                        self.set_previous_move(move)
-                        
                         self.update_visited(move_plus)
 
                         move_final = move_plus
