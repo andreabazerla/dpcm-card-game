@@ -21,6 +21,10 @@ class Player:
         self.previous_move = None
         self.epsilon = epsilon
         self.step_size = step_size
+        self.visits = []
+
+    def get_visits(self):
+        return self.visits
 
     def set_previous_state(self, previous_state):
         self.previous_state = previous_state
@@ -240,6 +244,12 @@ class Player:
     
     def update_visited(self, move):
         iloc_previous_state = self.get_q().index.get_loc(tuple(self.get_previous_state()))
+
+        if self.visited.iloc[iloc_previous_state][move] == 0:
+            self.visits.append(1)
+        else:
+            self.visits.append(0)
+
         self.visited.iloc[iloc_previous_state][move] += 1
 
     def update_q(self, state, move):
