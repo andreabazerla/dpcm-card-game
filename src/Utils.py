@@ -29,13 +29,17 @@ def get_states(players):
     config_cards_certification = config_cards_deck['CERTIFICATION']
     config_cards_wild = config_cards_deck['WILD']
 
+    # Deck zone states
     states.append(np.arange(len(config_cards_zone) + 1, dtype=np.int8))
 
+    # Number of cards in other players hand
     for _ in range(len(players) - 1):
         states.append(np.arange(4, dtype=np.int8))
 
+    # Infected state
     states.append(np.arange(4, dtype=np.int8))
 
+    # Playble cards in hand states
     for _ in range(len(config_cards_zone) + len(config_cards_certification) + len(config_cards_wild)):
         states.append(np.arange(2, dtype=np.int8))
 
