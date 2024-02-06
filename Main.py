@@ -39,12 +39,14 @@ if __name__ == '__main__':
     winner_list = turnament.start(logger, q, visited)
 
     visits = None
+    state_seen = None
     players = turnament.get_players()
     for player in players:
         visited = player.get_visited()
         if player.is_ai():
             q = player.get_q()
             visits = player.get_visits()
+            state_seen = player.get_state_seen()
             break
 
     winner_list_light = []
@@ -85,5 +87,11 @@ if __name__ == '__main__':
 
     if visits is not None:
         pd.DataFrame(visits, columns=['Visits']).to_csv('data/visits.csv', index=False)
+
+    if state_seen is not None:
+        state_before = [state_seen[0] for state_seen in state_seen]
+        state_after = [state_seen[1] for state_seen in state_seen]
+
+        pd.DataFrame({'Before': state_before, 'After': state_after}).to_csv('data/state_seen.csv', index=False)
 
     logger.info('DONE')

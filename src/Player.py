@@ -13,6 +13,7 @@ class Player:
         self.winner = False
         self.cards = []
         self.state = []
+        self.state_seen = []
         self.moves = []
         self.rewards = None
         self.q = None
@@ -184,10 +185,15 @@ class Player:
         new_cards = deck.draw_cards(table, cards_number)
         self.cards.extend(new_cards)
         return new_cards
+    
+    def get_state_seen(self):
+        return self.state_seen
 
     def play_cards(self, players:List[Self], table:Table, deck:Deck, quarantine):
         state = self.update_state(players, table, quarantine)
         self.update_moves(players, table)
+
+        state_before = state
 
         drew_from_deck = False
         if self.is_ai():
@@ -237,6 +243,10 @@ class Player:
                 self.update_visited(move)
             else:
                 self.draw_from_deck(deck, table, quarantine)
+
+        state_after = self.update_state(players, table, quarantine)
+
+        self.state_seen.append([state_before, state_after])
 
         return card, certification_card, drew_from_deck, quarantine, infected, vaccinated, skip, move_final
     
