@@ -78,6 +78,29 @@ class Turnament:
 
             player_winner, turn, fake_winner, expected_winner = game.start(logger)
 
+            if turnament % 10 == 0:
+                state_seen = None
+                for player in players:
+                    if player.is_ai():
+                        player_selected = player
+                        state_seen = player.get_state_seen()
+                        new_state_seen = {'Before': [state[0] for state in state_seen], 'After': [state[1] for state in state_seen]}
+                        break
+                if state_seen is not None:
+                    try:
+                        state_seen_df = pd.read_csv('data/state_seen.csv')
+
+                        new_state_seen_df = pd.DataFrame(new_state_seen)
+
+                        state_seen_df = pd.concat([state_seen_df, new_state_seen_df], ignore_index=True)
+                    except:
+                        state_seen_df = pd.DataFrame(new_state_seen)
+
+                    state_seen_df.to_csv('data/state_seen.csv', index=False)
+
+                if player_selected is not None:
+                    player_selected.reset_state_seen()
+            
             winner_list.append((player_winner, turn, fake_winner, expected_winner))
 
             if self.is_turnament_fair():

@@ -95,6 +95,9 @@ class Player:
     
     def set_winner(self, winner):
         self.winner = winner
+
+    def reset_state_seen(self):
+        self.state_seen = []
     
     def draw_from_player(self, players):
         next_player = self.get_next_player(players)
