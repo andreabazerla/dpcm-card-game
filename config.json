@@ -1,6 +1,6 @@
 {
     "TURNAMENT": {
-        "NUMBER": 1000,
+        "NUMBER": 100000,
         "FAIR": true
     },
     "GAME": {
