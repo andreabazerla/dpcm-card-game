@@ -9,11 +9,11 @@ if __name__ == '__main__':
     clear_console()
 
     clear_file('output/info.log')
-    clear_file('output/debug.log')
     clear_file('data/state_seen.csv')
+    clear_file('data/visits.csv')
+    clear_file('data/results.csv')
     
-    logger = get_logger('info', logging.INFO, console=True, file='output/info.log')
-    debugger = get_logger('debug', logging.DEBUG, file='output/debug.log')
+    logger = get_logger('info', logging.INFO, console=False, file=False)
 
     config = get_config()
 
